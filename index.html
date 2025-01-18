@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <style>
+        /* Basic styling for calculator layout */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .calculator {
+            width: 300px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .display {
+            background: #333;
+            color: #fff;
+            font-size: 2rem;
+            text-align: right;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .button {
+            padding: 20px;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button:active {
+            background: #ddd;
+        }
+
+        .operator {
+            background: #f4b400;
+            color: #fff;
+        }
+
+        .clear {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .equals {
+            background: #2ecc71;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <!-- Row 1 -->
+            <div class="button clear" onclick="clearDisplay()">C</div>
+            <div class="button">&nbsp;</div>
+            <div class="button">&nbsp;</div>
+            <div class="button operator" onclick="appendOperator('/')">/</div>
+            <!-- Row 2 -->
+            <div class="button" onclick="appendNumber(7)">7</div>
+            <div class="button" onclick="appendNumber(8)">8</div>
+            <div class="button" onclick="appendNumber(9)">9</div>
+            <div class="button operator" onclick="appendOperator('*')">*</div>
+            <!-- Row 3 -->
+            <div class="button" onclick="appendNumber(4)">4</div>
+            <div class="button" onclick="appendNumber(5)">5</div>
+            <div class="button" onclick="appendNumber(6)">6</div>
+            <div class="button operator" onclick="appendOperator('-')">-</div>
+            <!-- Row 4 -->
+            <div class="button" onclick="appendNumber(1)">1</div>
+            <div class="button" onclick="appendNumber(2)">2</div>
+            <div class="button" onclick="appendNumber(3)">3</div>
+            <div class="button operator" onclick="appendOperator('+')">+</div>
+            <!-- Row 5 -->
+            <div class="button" onclick="appendNumber(0)">0</div>
+            <div class="button" onclick="appendDot()">.</div>
+            <div class="button equals" onclick="calculateResult()">=</div>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+
+        function clearDisplay() {
+            display.textContent = '0';
+        }
+
+        function appendNumber(number) {
+            if (display.textContent === '0') {
+                display.textContent = number;
+            } else {
+                display.textContent += number;
+            }
+        }
+
+        function appendOperator(operator) {
+            const lastChar = display.textContent.slice(-1);
+            if ('+-*/'.includes(lastChar)) {
+                display.textContent = display.textContent.slice(0, -1) + operator;
+            } else {
+                display.textContent += operator;
+            }
+        }
+
+        function appendDot() {
+            const parts = display.textContent.split(/[-+*/]/);
+            if (!parts[parts.length - 1].includes('.')) {
+                display.textContent += '.';
+            }
+        }
+
+        function calculateResult() {
+            try {
+                display.textContent = eval(display.textContent);
+            } catch (error) {
+                display.textContent = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
